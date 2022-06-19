@@ -24,7 +24,7 @@ def add(ctx: typer.Context, id_coin: str, value: float) -> None:
 
         except ValueError:
             ctx.obj["CONSOLE"].print(
-                f"The [magenta]{value}[/magenta] alarm is the current price of {id_coin.capitalize()}",
+                f"The [magenta]{value}[/magenta] alarm is the current price of [blue]{id_coin.capitalize()}[/blue]",
                 style="bold",
             )
 
@@ -73,13 +73,13 @@ def remove(ctx: typer.Context, id_coin: str, value: float) -> None:
 
         except KeyError:
             ctx.obj["CONSOLE"].print(
-                f"There is no [magenta]{value}[/magenta] alarm on {id_coin.capitalize()}",
+                f"There is no [magenta]{value}[/magenta] alarm on [blue]{id_coin.capitalize()}[/blue]",
                 style="bold",
             )
 
     except KeyError:
         ctx.obj["CONSOLE"].print(
-            f"[magenta]{id_coin.capitalize()}[/magenta] is not on the watchlist",
+            f"There is no coin with ID [red]{id_coin}[/red] on the watchlist",
             style="bold",
         )
 
@@ -92,7 +92,7 @@ def remove(ctx: typer.Context, id_coin: str, value: float) -> None:
 
         if e.response.status_code == 404:
             ctx.obj["CONSOLE"].print(
-                f"Unable to find the coin with id [red]{id_coin}[/red]",
+                f"Unable to find the coin with ID [red]{id_coin}[/red]",
                 style="bold",
             )
 

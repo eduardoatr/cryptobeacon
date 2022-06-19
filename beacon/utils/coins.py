@@ -119,7 +119,7 @@ def set_to_string(alarms: Set[float]) -> str:
 def load_coins(ctx: typer.Context, coins: str) -> Dict[str, Coin]:
 
     coin_dict = {}
-    prices = ctx.obj["API"].get_price(coins, vs_currencies="usd")
+    prices = ctx.obj["API"].get_price(coins)
 
     for coin_id in coins.split(","):
 
