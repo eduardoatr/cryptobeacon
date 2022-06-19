@@ -1,7 +1,7 @@
 "Manage the alarms for a coin in the watchlist."
 
 import typer
-from beacon.utils.coins import load_coins, save_coins
+from cryptobeacon.utils.coins import load_coins, save_coins
 from requests import RequestException
 
 app = typer.Typer()

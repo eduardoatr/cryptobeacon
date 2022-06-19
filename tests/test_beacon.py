@@ -1,4 +1,4 @@
-from beacon import __version__
+from cryptobeacon import __version__
 
 
 def test_version():

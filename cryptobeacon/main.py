@@ -8,10 +8,10 @@ import typer
 from requests.exceptions import RequestException
 from rich.console import Console
 
-import beacon.commands.alarm as alarm
-import beacon.commands.coin as coin
-from beacon.utils.apis import API
-from beacon.utils.coins import list_coins, load_coins, save_coins
+import cryptobeacon.commands.alarm as alarm
+import cryptobeacon.commands.coin as coin
+from cryptobeacon.utils.apis import API
+from cryptobeacon.utils.coins import list_coins, load_coins, save_coins
 
 app = typer.Typer()
 app.add_typer(coin.app, name="coin", help="Manage the coins tracked by the watchlist.")
@@ -73,7 +73,7 @@ def run(
     ctx: typer.Context,
     refresh: int = typer.Option(45, help="Watchlist refresh rate in seconds."),
 ) -> None:
-    """Run Beacon, updating the prices for coins in the watchlist and checking their alarms."""
+    """Run CryptoBeacon, updating the prices for coins in the watchlist and checking their alarms."""
 
     try:
 
@@ -99,9 +99,9 @@ def run(
 
 @app.callback()
 def load(ctx: typer.Context) -> None:
-    """Beacon is a simple command-line interface tool for cryptocurrency alerts directly into your desktop."""
+    """CryptoBeacon is a simple command-line interface tool for cryptocurrency alerts directly into your desktop."""
 
-    path_configs = typer.get_app_dir("beacon")
+    path_configs = typer.get_app_dir("cryptobeacon")
 
     ctx.obj = {
         "CONSOLE": Console(),
