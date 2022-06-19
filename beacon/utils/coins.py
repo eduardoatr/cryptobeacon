@@ -1,3 +1,5 @@
+"Manage the coin information."
+
 import os
 from dataclasses import dataclass
 from importlib import resources
@@ -23,7 +25,7 @@ class Coin:
     alarms_up: Set[float]
 
     def __post_init__(self) -> None:
-        """Cleans old alarms that have already been reached."""
+        """Clean invalid alarms."""
 
         list_remove = []
 
@@ -44,11 +46,24 @@ class Coin:
             self.alarms_up.remove(alarm)
 
     def update_price(self, value) -> None:
+        """Update the current and previous prices for the coin.
+
+        Args:
+            value (_type_): Current value.
+        """
 
         self.price_previous = self.price_current
         self.price_current = value
 
     def set_alarm(self, value: float) -> None:
+        """Set an alarm for the coin.
+
+        Args:
+            value (float): Target price for the alarm.
+
+        Raises:
+            ValueError: Invalid target value.
+        """
 
         if value > self.price_current:
             self.alarms_up.add(value)
@@ -60,6 +75,11 @@ class Coin:
             raise ValueError
 
     def remove_alarm(self, value: float) -> None:
+        """Remove an alarm.
+
+        Args:
+            value (float): Target price of the alarm.
+        """
 
         if value > self.price_current:
             self.alarms_up.remove(value)
@@ -68,6 +88,7 @@ class Coin:
             self.alarms_down.remove(value)
 
     def check_alarms(self) -> None:
+        """Check the alarms against the current price, sending a notification if a target is reached."""
 
         list_remove = []
 
@@ -92,6 +113,7 @@ class Coin:
                 self.ring_alarm()
 
     def ring_alarm(self) -> None:
+        """Send a desktop notification including the coin name and the current price."""
 
         os.system(
             f'notify-send "The price of {self.name} has reached {self.price_current}" -i "{resources.path("assets", _FILE_ICON)}"'
@@ -99,6 +121,14 @@ class Coin:
 
 
 def string_2_set(alarms: str) -> Set[float]:
+    """Converts a comma-separated string to a set.
+
+    Args:
+        alarms (str): Comma-separated alarm string.
+
+    Returns:
+        Set[float]: Set of alarms.
+    """
 
     values = []
 
@@ -110,6 +140,14 @@ def string_2_set(alarms: str) -> Set[float]:
 
 
 def set_to_string(alarms: Set[float]) -> str:
+    """Convert a set to a comma-separated alarm string.
+
+    Args:
+        alarms (Set[float]): Set of alarms.
+
+    Returns:
+        str: Comma-separated alarm string.
+    """
 
     values = [str(value) for value in alarms]
 
@@ -117,6 +155,15 @@ def set_to_string(alarms: Set[float]) -> str:
 
 
 def load_coins(ctx: typer.Context, coins: str) -> Dict[str, Coin]:
+    """Load the coins from the configuration file.
+
+    Args:
+        ctx (typer.Context): Typer context manager.
+        coins (str): Comma-separated list of coins.
+
+    Returns:
+        Dict[str, Coin]: Dictionary of Coin objects.
+    """
 
     coin_dict = {}
     prices = ctx.obj["API"].get_price(coins)
@@ -142,6 +189,12 @@ def load_coins(ctx: typer.Context, coins: str) -> Dict[str, Coin]:
 
 
 def save_coins(ctx: typer.Context, coin_list: List[Coin]) -> None:
+    """Save the coin watchlist to the configuration file.
+
+    Args:
+        ctx (typer.Context): Typer context manager.
+        coin_list (List[Coin]): List of Coin objects.
+    """
 
     for coin in coin_list:
 
@@ -160,6 +213,12 @@ def save_coins(ctx: typer.Context, coin_list: List[Coin]) -> None:
 
 
 def list_coins(ctx: typer.Context, coin_list: Mapping[str, Coin]) -> None:
+    """Show the coin watchlist, including name, symbol, price and active alarms for each coin.
+
+    Args:
+        ctx (typer.Context): Typer context manager.
+        coin_list (Mapping[str, Coin]): Dictionary of Coin objects.
+    """
 
     list_table = Table(
         title="\n🔎 [underline]WATCHLIST",

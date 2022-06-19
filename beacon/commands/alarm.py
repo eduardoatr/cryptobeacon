@@ -1,3 +1,5 @@
+"Manage the alarms for a coin in the watchlist."
+
 import typer
 from requests import RequestException
 from utils.coins import load_coins, save_coins
@@ -6,7 +8,12 @@ app = typer.Typer()
 
 
 @app.command()
-def add(ctx: typer.Context, id_coin: str, value: float) -> None:
+def add(
+    ctx: typer.Context,
+    id_coin: str = typer.Argument(..., help="ID of the coin in the watchlist."),
+    value: float = typer.Argument(..., help="Target price for the alarm."),
+) -> None:
+    """Set an alarm for a coin in the watchlist, sending a desktop notification when the price is reached."""
 
     try:
 
@@ -55,7 +62,12 @@ def add(ctx: typer.Context, id_coin: str, value: float) -> None:
 
 
 @app.command()
-def remove(ctx: typer.Context, id_coin: str, value: float) -> None:
+def remove(
+    ctx: typer.Context,
+    id_coin: str = typer.Argument(..., help="ID of the coin in the watchlist."),
+    value: float = typer.Argument(..., help="Target price for the alarm."),
+) -> None:
+    """Remove an alarm for a coin in the watchlist."""
 
     try:
 

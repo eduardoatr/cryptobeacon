@@ -12,14 +12,17 @@ from utils.apis import API
 from utils.coins import list_coins, load_coins, save_coins
 
 app = typer.Typer()
-app.add_typer(coin.app, name="coin")
-app.add_typer(alarm.app, name="alarm")
+app.add_typer(coin.app, name="coin", help="Manage the coins tracked by the watchlist.")
+app.add_typer(
+    alarm.app, name="alarm", help="Manage the alarms for a coin in the watchlist."
+)
 
 __FILE_CONFIG = "coins.ini"
 
 
 @app.command()
 def clear(ctx: typer.Context) -> None:
+    """Clear the watchlist, removing all coins and their alarms."""
 
     clear = typer.confirm("Clear the watchlist?")
 
@@ -47,6 +50,7 @@ def clear(ctx: typer.Context) -> None:
 
 @app.command()
 def show(ctx: typer.Context) -> None:
+    """Show the watchlist, including name, symbol, price and active alarms for each coin."""
 
     try:
 
@@ -63,7 +67,11 @@ def show(ctx: typer.Context) -> None:
 
 
 @app.command()
-def run(ctx: typer.Context, refresh: int = 45) -> None:
+def run(
+    ctx: typer.Context,
+    refresh: int = typer.Option(45, help="Watchlist refresh rate in seconds."),
+) -> None:
+    """Run Beacon, updating the prices for coins in the watchlist and checking their alarms."""
 
     try:
 
@@ -89,7 +97,7 @@ def run(ctx: typer.Context, refresh: int = 45) -> None:
 
 @app.callback()
 def load(ctx: typer.Context) -> None:
-    """TODO"""
+    """Beacon is a simple command-line interface tool for cryptocurrency alerts directly into your desktop."""
 
     path_configs = typer.get_app_dir("beacon")
 

@@ -1,3 +1,5 @@
+"Manage the connection with the employed APIs."
+
 from typing import Dict, Mapping
 
 import requests
@@ -9,6 +11,11 @@ _ENDPOINT_SIMPLE = "simple/"
 
 class API:
     def __init__(self, url_base: str = _URL_API) -> None:
+        """Initiate the request session and set retry configurations.
+
+        Args:
+            url_base (str, optional): Base URL of the API. Defaults to _URL_API.
+        """
 
         self.url_base = url_base
         self.timeout = 10
@@ -20,6 +27,16 @@ class API:
     def __request(
         self, url: str, headers: Mapping[str, str], params: Mapping[str, str]
     ) -> Dict[str, Dict[str, str]]:
+        """Send an request to the API.
+
+        Args:
+            url (str): URL of the API.
+            headers (Mapping[str, str]): HTTP headers.
+            params (Mapping[str, str]): Request parameters.
+
+        Returns:
+            Dict[str, Dict[str, str]]: JSON HTTP response.
+        """
 
         response = self.session.get(
             url,
@@ -41,6 +58,19 @@ class API:
         include_24hr_change: bool = False,
         include_last_updated_at: bool = False,
     ) -> Dict[str, Dict[str, str]]:
+        """The the price related information for a list o coins.
+
+        Args:
+            ids (str): List of coin IDs.
+            vs_currencies (str, optional): Fiat currency pair. Defaults to "usd".
+            include_market_cap (bool, optional): Include market cap. Defaults to False.
+            include_24hr_vol (bool, optional): Include 24h trading volume. Defaults to False.
+            include_24hr_change (bool, optional): Include 24 price change. Defaults to False.
+            include_last_updated_at (bool, optional): Include last update time. Defaults to False.
+
+        Returns:
+            Dict[str, Dict[str, str]]: Dictionary with the information by coin ID.
+        """
 
         url = f"{_URL_API}{_ENDPOINT_SIMPLE}price"
         headers = {"accept": "application/json"}
@@ -65,6 +95,20 @@ class API:
         developer_data: bool = False,
         sparkline: bool = False,
     ) -> Dict[str, Dict[str, str]]:
+        """Get all the information available for a coin.
+
+        Args:
+            id (str): Coin ID.
+            localization (bool, optional): Add the description in other languages. Defaults to False.
+            tickers (bool, optional): Add coin ticker price information. Defaults to False.
+            market_data (bool, optional): Add global market information for the coin. Defaults to False.
+            community_data (bool, optional): Add community information. Defaults to False.
+            developer_data (bool, optional): Add development information. Defaults to False.
+            sparkline (bool, optional): ?. Defaults to False.
+
+        Returns:
+            Dict[str, Dict[str, str]]: Dictionary containing all the request information.
+        """
 
         url = f"{_URL_API}coins/{id}"
         headers = {"accept": "application/json"}

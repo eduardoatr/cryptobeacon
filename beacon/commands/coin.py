@@ -1,3 +1,5 @@
+"Manage the coins tracked by the watchlist."
+
 import typer
 from requests.exceptions import RequestException
 from utils.coins import Coin, save_coins
@@ -6,7 +8,10 @@ app = typer.Typer()
 
 
 @app.command()
-def add(ctx: typer.Context, id_coin: str) -> None:
+def add(
+    ctx: typer.Context, id_coin: str = typer.Argument(..., help="ID of the coin.")
+) -> None:
+    """Add a coin to be tracked in the watchlist."""
 
     if id_coin in ctx.obj["PARSER"].sections():
         ctx.obj["CONSOLE"].print(
@@ -63,7 +68,10 @@ def add(ctx: typer.Context, id_coin: str) -> None:
 
 
 @app.command()
-def remove(ctx: typer.Context, id_coin: str) -> None:
+def remove(
+    ctx: typer.Context, id_coin: str = typer.Argument(..., help="ID of the coin.")
+) -> None:
+    """Remove a coin from the watchlist."""
 
     try:
 
