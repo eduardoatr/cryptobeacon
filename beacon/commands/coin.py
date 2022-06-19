@@ -1,8 +1,8 @@
 "Manage the coins tracked by the watchlist."
 
 import typer
+from beacon.utils.coins import Coin, save_coins
 from requests.exceptions import RequestException
-from utils.coins import Coin, save_coins
 
 app = typer.Typer()
 

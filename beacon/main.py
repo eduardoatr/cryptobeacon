@@ -1,3 +1,5 @@
+"Main module of the application."
+
 from configparser import ConfigParser
 from pathlib import Path
 from time import sleep
@@ -6,10 +8,10 @@ import typer
 from requests.exceptions import RequestException
 from rich.console import Console
 
-import commands.alarm as alarm
-import commands.coin as coin
-from utils.apis import API
-from utils.coins import list_coins, load_coins, save_coins
+import beacon.commands.alarm as alarm
+import beacon.commands.coin as coin
+from beacon.utils.apis import API
+from beacon.utils.coins import list_coins, load_coins, save_coins
 
 app = typer.Typer()
 app.add_typer(coin.app, name="coin", help="Manage the coins tracked by the watchlist.")
@@ -119,7 +121,3 @@ def load(ctx: typer.Context) -> None:
         ctx.obj["CONSOLE"].print(
             "Missing the [red]configurations[/red] file", style="bold"
         )
-
-
-if __name__ == "__main__":
-    app()
