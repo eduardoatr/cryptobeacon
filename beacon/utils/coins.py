@@ -228,12 +228,12 @@ def list_coins(ctx: typer.Context, coin_list: Mapping[str, Coin]) -> None:
         show_lines=True,
         box=box.ROUNDED,
     )
-    list_table.add_column("#")
-    list_table.add_column("[blue]Coin")
-    list_table.add_column("[magenta]Symbol")
-    list_table.add_column("[yellow]$ Price")
-    list_table.add_column("[green]▲ Up")
-    list_table.add_column("[red]▼ Down")
+    list_table.add_column("#", justify="center")
+    list_table.add_column("[blue]Coin", justify="center")
+    list_table.add_column("[magenta]Symbol", justify="center")
+    list_table.add_column("[yellow]$ Price", justify="center")
+    list_table.add_column("[green]▲ Up", justify="center")
+    list_table.add_column("[red]▼ Down", justify="center")
 
     for index, key in enumerate(coin_list):
 
