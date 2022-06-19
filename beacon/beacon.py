@@ -19,7 +19,7 @@ __FILE_CONFIG = "coins.ini"
 
 
 @app.command()
-def show(ctx: typer.Context):
+def show(ctx: typer.Context) -> None:
 
     try:
 
@@ -30,8 +30,33 @@ def show(ctx: typer.Context):
         ctx.obj["CONSOLE"].print(f"Request error: [red]{e}[/red]", style="bold")
 
 
-@app.callback(invoke_without_command=True)
-def load_beacon(ctx: typer.Context):
+@app.command()
+def run(ctx: typer.Context, refresh: int = 45) -> None:
+
+    try:
+
+        coins = load_coins(ctx, ",".join(ctx.obj["PARSER"].sections()))
+
+        while True:
+
+            prices = ctx.obj["API"].get_price(",".join(coins.keys()))
+
+            for coin_id in coins:
+                coins[coin_id].update_price(float(prices[coin_id]["usd"]))
+                coins[coin_id].check_alarms()
+
+            ctx.obj["CONSOLE"].clear()
+            list_coins(ctx, coins)
+            save_coins(ctx, list(coins.values()))
+
+            sleep(refresh)
+
+    except RequestException as e:
+        ctx.obj["CONSOLE"].print(f"Request error: [red]{e}[/red]", style="bold")
+
+
+@app.callback()
+def load(ctx: typer.Context) -> None:
     """TODO"""
 
     path_configs = typer.get_app_dir("beacon")
@@ -49,29 +74,6 @@ def load_beacon(ctx: typer.Context):
     try:
 
         ctx.obj["PARSER"].read(ctx.obj["FILE"].absolute())
-
-        if ctx.invoked_subcommand is None:
-
-            try:
-
-                coins = load_coins(ctx, ",".join(ctx.obj["PARSER"].sections()))
-
-                while True:
-
-                    prices = ctx.obj["API"].get_price(",".join(coins.keys()))
-
-                    for coin_id in coins:
-                        coins[coin_id].update_price(float(prices[coin_id]["usd"]))
-                        coins[coin_id].check_alarms()
-
-                    ctx.obj["CONSOLE"].clear()
-                    list_coins(ctx, coins)
-                    save_coins(ctx, list(coins.values()))
-
-                    sleep(45)
-
-            except RequestException as e:
-                ctx.obj["CONSOLE"].print(f"Request error: [red]{e}[/red]", style="bold")
 
     except FileNotFoundError:
         ctx.obj["CONSOLE"].print(
