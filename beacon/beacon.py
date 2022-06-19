@@ -19,12 +19,44 @@ __FILE_CONFIG = "coins.ini"
 
 
 @app.command()
+def clear(ctx: typer.Context) -> None:
+
+    clear = typer.confirm("Clear the watchlist?")
+
+    if clear:
+
+        ctx.obj["PARSER"].clear()
+
+        try:
+
+            with ctx.obj["FILE"].open("w") as f:
+                ctx.obj["PARSER"].write(f)
+
+            ctx.obj["CONSOLE"].print(
+                "The watchlist was [green]cleared[/green]", style="bold"
+            )
+
+        except FileNotFoundError:
+            ctx.obj["CONSOLE"].print(
+                "Missing the [red]configurations[/red] file", style="bold"
+            )
+
+    else:
+        ctx.obj["CONSOLE"].print("Operation [red]cancelled[/red]", style="bold")
+
+
+@app.command()
 def show(ctx: typer.Context) -> None:
 
     try:
 
         coins = load_coins(ctx, ",".join(ctx.obj["PARSER"].sections()))
         list_coins(ctx, coins)
+
+    except FileNotFoundError:
+        ctx.obj["CONSOLE"].print(
+            "Missing the [red]configurations[/red] file", style="bold"
+        )
 
     except RequestException as e:
         ctx.obj["CONSOLE"].print(f"Request error: [red]{e}[/red]", style="bold")
