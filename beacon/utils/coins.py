@@ -121,21 +121,22 @@ def load_coins(ctx: typer.Context, coins: str) -> Dict[str, Coin]:
     coin_dict = {}
     prices = ctx.obj["API"].get_price(coins)
 
-    for coin_id in coins.split(","):
+    if coins:
+        for coin_id in coins.split(","):
 
-        coin_info = ctx.obj["PARSER"][coin_id]
-        price_previous = float(coin_info["price_current"])
-        price_current = float(prices[coin_id]["usd"])
+            coin_info = ctx.obj["PARSER"][coin_id]
+            price_previous = float(coin_info["price_current"])
+            price_current = float(prices[coin_id]["usd"])
 
-        coin_dict[coin_id] = Coin(
-            id=coin_info["id"],
-            name=coin_info["name"],
-            symbol=coin_info["symbol"],
-            price_current=price_current,
-            price_previous=price_previous,
-            alarms_down=string_2_set(coin_info["alarms_down"]),
-            alarms_up=string_2_set(coin_info["alarms_up"]),
-        )
+            coin_dict[coin_id] = Coin(
+                id=coin_info["id"],
+                name=coin_info["name"],
+                symbol=coin_info["symbol"],
+                price_current=price_current,
+                price_previous=price_previous,
+                alarms_down=string_2_set(coin_info["alarms_down"]),
+                alarms_up=string_2_set(coin_info["alarms_up"]),
+            )
 
     return coin_dict
 
