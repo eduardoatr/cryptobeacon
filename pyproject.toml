@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "cryptobeacon"
-version = "1.0.0"
+version = "1.0.1"
 description = "CryptoBeacon is a simple command-line interface tool for cryptocurrency alerts directly into your desktop."
 authors = ["Eduardo V. e Sousa <eduardoatrcomp@gmail.com>"]
 license = "MIT"

@@ -116,7 +116,7 @@ class Coin:
         """Send a desktop notification including the coin name and the current price."""
 
         os.system(
-            f'notify-send "The price of {self.name} has reached {self.price_current}" -i "{resources.path("assets", _FILE_ICON)}"'
+            f'notify-send "The price of {self.name} has reached {self.price_current}" -i "{resources.path("cryptobeacon.assets", _FILE_ICON)}"'
         )
 
 
