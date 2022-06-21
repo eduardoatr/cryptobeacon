@@ -45,7 +45,7 @@ class Coin:
         for alarm in list_remove:
             self.alarms_up.remove(alarm)
 
-    def update_price(self, value) -> None:
+    def update_price(self, value: float) -> None:
         """Update the current and previous prices for the coin.
 
         Args:
@@ -87,7 +87,7 @@ class Coin:
         else:
             self.alarms_down.remove(value)
 
-    def check_alarms(self) -> None:
+    def check_alarms(self, ring: bool = True) -> None:
         """Check the alarms against the current price, sending a notification if a target is reached."""
 
         list_remove = []
@@ -100,7 +100,9 @@ class Coin:
 
             for alarm in list_remove:
                 self.alarms_up.remove(alarm)
-                self.ring_alarm()
+
+                if ring:
+                    self.ring_alarm()
 
         else:
 
@@ -110,7 +112,9 @@ class Coin:
 
             for alarm in list_remove:
                 self.alarms_down.remove(alarm)
-                self.ring_alarm()
+
+                if ring:
+                    self.ring_alarm()
 
     def ring_alarm(self) -> None:
         """Send a desktop notification including the coin name and the current price."""

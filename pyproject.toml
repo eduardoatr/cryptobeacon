@@ -11,12 +11,10 @@ python = "^3.10"
 typer = {extras = ["all"], version = "^0.4.1"}
 rich = "^12.4.4"
 requests = "^2.28.0"
+pytest = "^7.1.2"
 
 [tool.poetry.dev-dependencies]
-pytest = "^5.2"
 black = {version = "^22.3.0", allow-prereleases = true}
-flake8 = "^4.0.1"
-pylama = "^8.3.8"
 
 [tool.poetry.scripts]
 cryptobeacon = "cryptobeacon.main:app"
