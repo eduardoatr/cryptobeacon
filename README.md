@@ -21,7 +21,7 @@ Tracking your favorite cryptocurrencies with **CryptoBeacon** is easy. Start by 
 cryptobeacon coin add bitcoin
 ```
 
-Confirm the addition using the **show** command:
+Check the addition using the **show** command:
 
 ```Bash
 cryptobeacon show
@@ -39,4 +39,4 @@ Finally, **run** the application:
 cryptobeacon run
 ```
 
-> ⚠️ Additionally, there are commands to **remove** coins and alarms from the watchlist, or even to **clear** it entirely. Use the **help** commando for more specific information.
+> ⚠️ Additionally, there are commands to **remove** coins and alarms from the watchlist, or even to **clear** it entirely. Use the **--help** flag for more specific information.
