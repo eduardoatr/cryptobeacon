@@ -143,7 +143,7 @@ def string_2_set(alarms: str) -> Set[float]:
     return set(values)
 
 
-def set_to_string(alarms: Set[float]) -> str:
+def set_2_string(alarms: Set[float]) -> str:
     """Convert a set to a comma-separated alarm string.
 
     Args:
@@ -208,8 +208,8 @@ def save_coins(ctx: typer.Context, coin_list: List[Coin]) -> None:
             "symbol": coin.symbol,
             "price_current": str(coin.price_current),
             "price_previous": str(coin.price_previous),
-            "alarms_down": set_to_string(coin.alarms_down),
-            "alarms_up": set_to_string(coin.alarms_up),
+            "alarms_down": set_2_string(coin.alarms_down),
+            "alarms_up": set_2_string(coin.alarms_up),
         }
 
     with ctx.obj["FILE"].open("w") as f:
@@ -247,8 +247,8 @@ def list_coins(ctx: typer.Context, coin_list: Mapping[str, Coin]) -> None:
             coin.name,
             coin.symbol.upper(),
             str(coin.price_current),
-            set_to_string(coin.alarms_up),
-            set_to_string(coin.alarms_down),
+            set_2_string(coin.alarms_up),
+            set_2_string(coin.alarms_down),
         )
 
     ctx.obj["CONSOLE"].print(list_table)
